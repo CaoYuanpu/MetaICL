@@ -57,7 +57,7 @@ def process_tasks(idx, task_list, args, fail_dict):
     failed_tasks = []
     for task in task_list:
         print("Process {}: Processing {} ...".format(idx, task))
-        command = "python %s%s%s%s --train_k %d --test_k %d" % (
+        command = "python3 %s%s%s%s --train_k %d --test_k %d" % (
             task,
             " --inst" if args.inst else "",
             " --do_train" if args.do_train else "",
