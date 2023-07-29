@@ -107,7 +107,7 @@ class MetaICLModel(object):
                     if os.path.exists(checkpoint):
                         self.logger.info("Reusing checkpoint at %s" % checkpoint)
                     else:
-                        self.logger.info("Downloading %s in %s", keyword, checkpoint)
+                        self.logger.info("Downloading %s in %s" % (keyword, checkpoint))
                     download_file(_id, checkpoint)
 
             assert os.path.exists(checkpoint), checkpoint
