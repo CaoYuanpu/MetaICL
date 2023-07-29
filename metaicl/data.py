@@ -24,6 +24,11 @@ class MetaICLData(object):
     def __init__(self, logger=None, tokenizer=None, method="channel", use_demonstrations=True, k=16,
                  max_length=1024, max_length_per_example=256,
                  do_tensorize=False, tensorize_dir=None, n_process=None, n_gpu=None, local_rank=-1):
+        if logger is None:
+            class Logger():
+                def info(self, text):
+                    print ("Logging from MetaICLModel:\t", text)
+            logger = Logger()
 
         self.logger = logger
         self.tokenizer = tokenizer
