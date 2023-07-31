@@ -406,7 +406,7 @@ class MetaICLData(object):
                 input_ids.append(encoded[0])
                 attention_mask.append(encoded[1])
                 token_type_ids.append(encoded[2])
-                print(len(input_ids[-1]), len(attention_mask), len(token_type_ids))
+                print(len(input_ids[-1]), len(attention_mask[-1]), len(token_type_ids[-1]))
                 input()
 
         self.tensorized_inputs = dict(input_ids=torch.LongTensor(input_ids),
