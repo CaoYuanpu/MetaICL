@@ -285,6 +285,7 @@ class MetaICLModel(object):
         print('logits.size(-1):', logits.size(-1))
         print('input_ids:', input_ids.shape)
         print('labels:', labels.shape)
+        print(logits.view(-1, logits.size(-1)).shape, labels.view(-1).shape)
         input()
 
         loss_fct = torch.nn.CrossEntropyLoss(reduction="none")
