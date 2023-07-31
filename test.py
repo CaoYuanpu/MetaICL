@@ -179,7 +179,9 @@ def run(logger, task, metaicl_data, metaicl_model, train_data, dev_data, seed,
                         "-s={}".format(seed) if args.use_demonstrations or args.use_random_english_words else "",
                         "-randomEnglish" if args.use_random_english_words else ""
                       ))
-
+    for dp in train_data:
+        print(dp)
+        input()
     metaicl_data.tensorize(train_data, dev_data, add_newlines=add_newlines)
     metaicl_data.print_tensorized_example()
     logger.info(cache_path)
