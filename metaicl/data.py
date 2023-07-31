@@ -385,6 +385,8 @@ class MetaICLData(object):
                 input_, output_ = self._prepro_each_datapoint(
                     dp, is_first=i==0, for_demonstrations=True,
                     add_newlines=add_newlines)
+                print(len(input_), len(output_))
+                input()
                 demonstrations += input_ + output_
 
         for dp_idx, dp in enumerate(test_data):
