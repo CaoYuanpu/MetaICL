@@ -202,15 +202,6 @@ class MetaICLData(object):
             input_tokens = [input_tokens for _ in option_tokens]
             output_tokens = option_tokens
             option_tokens = [dp["options"].index(dp["output"])]
-            print("input")
-            for input_token in input_tokens:
-                print(len(input_token))
-                input()
-
-            print("output")
-            for output_token in output_tokens:
-                print(len(output_token))
-                input()
 
             if self.method=="direct":
                 return input_tokens, output_tokens, option_tokens
