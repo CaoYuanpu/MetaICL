@@ -273,16 +273,18 @@ class MetaICLModel(object):
     def run_model(self, input_ids, attention_mask, token_type_ids, labels=None):
         outputs = self.model(input_ids=input_ids, attention_mask=attention_mask)
         logits = outputs.logits[..., :-1, :].contiguous()
-        print('run model:')
-        print('outputs.logits:', outputs.logits.shape)
-        print('logits:', logits.shape)
-        print('input_ids:', input_ids.shape)
-        input()
         
         if labels is None:
             labels = input_ids
         labels = labels[..., 1:].contiguous()
         label_mask = token_type_ids[..., 1:].contiguous()
+
+        print('run model:')
+        print('outputs.logits:', outputs.logits.shape)
+        print('logits:', logits.shape)
+        print('input_ids:', input_ids.shape)
+        print('labels:', labels.shape)
+        input()
 
         loss_fct = torch.nn.CrossEntropyLoss(reduction="none")
         losses = loss_fct(logits.view(-1, logits.size(-1)), labels.view(-1)) # [batch_size, length]
