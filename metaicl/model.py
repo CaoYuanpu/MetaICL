@@ -240,14 +240,14 @@ class MetaICLModel(object):
         self.logger.info("Finish training")
 
     def do_inference(self, data, batch_size=1, verbose=False):
+        print('do_inference:')
+        print(len(data))
+        input()
         dataloader = data.get_dataloader(batch_size, is_training=False)
         if verbose:
             dataloader = tqdm(dataloader)
         losses = []
         for batch in dataloader:
-            print('batch:')
-            print(len(batch))
-            input()
             input_ids=batch[0].cuda()
             attention_mask=batch[1].cuda()
             token_type_ids=batch[2].cuda()
@@ -258,8 +258,6 @@ class MetaICLModel(object):
             with torch.no_grad():
                 loss = self.run_model(input_ids, attention_mask, token_type_ids, labels=labels)
             losses += loss.cpu().detach().numpy().tolist()
-            print(len(losses))
-            input()
         return losses
 
     def do_predict(self, data, batch_size=1, losses=None, verbose=False):
