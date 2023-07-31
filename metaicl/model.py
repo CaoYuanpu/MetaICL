@@ -282,6 +282,7 @@ class MetaICLModel(object):
         print('run model:')
         print('outputs.logits:', outputs.logits.shape)
         print('logits:', logits.shape)
+        print('logits.size(-1):', logits.size(-1))
         print('input_ids:', input_ids.shape)
         print('labels:', labels.shape)
         input()
