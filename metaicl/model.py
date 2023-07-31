@@ -255,6 +255,8 @@ class MetaICLModel(object):
             with torch.no_grad():
                 loss = self.run_model(input_ids, attention_mask, token_type_ids, labels=labels)
             losses += loss.cpu().detach().numpy().tolist()
+            print(len(losses))
+            input()
         return losses
 
     def do_predict(self, data, batch_size=1, losses=None, verbose=False):
