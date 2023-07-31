@@ -202,7 +202,8 @@ class MetaICLData(object):
             input_tokens = [input_tokens for _ in option_tokens]
             output_tokens = option_tokens
             option_tokens = [dp["options"].index(dp["output"])]
-
+            print(len(input_tokens), len(output_tokens), len(option_tokens))
+            input()
             if self.method=="direct":
                 return input_tokens, output_tokens, option_tokens
             elif self.method=="channel":
@@ -385,8 +386,6 @@ class MetaICLData(object):
                 input_, output_ = self._prepro_each_datapoint(
                     dp, is_first=i==0, for_demonstrations=True,
                     add_newlines=add_newlines)
-                print(len(input_), len(output_))
-                input()
                 demonstrations += input_ + output_
 
         for dp_idx, dp in enumerate(test_data):
