@@ -240,9 +240,6 @@ class MetaICLModel(object):
         self.logger.info("Finish training")
 
     def do_inference(self, data, batch_size=1, verbose=False):
-        print('do_inference:')
-        print(len(data))
-        input()
         dataloader = data.get_dataloader(batch_size, is_training=False)
         if verbose:
             dataloader = tqdm(dataloader)
@@ -275,6 +272,9 @@ class MetaICLModel(object):
 
     def run_model(self, input_ids, attention_mask, token_type_ids, labels=None):
         outputs = self.model(input_ids=input_ids, attention_mask=attention_mask)
+        print('run model:')
+        print(outputs.logits.shape)
+        input()
         logits = outputs.logits[..., :-1, :].contiguous()
 
         if labels is None:
