@@ -286,11 +286,12 @@ class MetaICLModel(object):
         print('input_ids:', input_ids.shape)
         print('labels:', labels.shape)
         print(logits.view(-1, logits.size(-1)).shape, labels.view(-1).shape)
-        input()
+        
 
         loss_fct = torch.nn.CrossEntropyLoss(reduction="none")
         losses = loss_fct(logits.view(-1, logits.size(-1)), labels.view(-1)) # [batch_size, length]
-
+        print('losses:', losses.shape)
+        input()
         losses = losses.view(logits.size(0), logits.size(1)) * label_mask
         return torch.sum(losses, axis=1) / torch.sum(label_mask, axis=1)
 
