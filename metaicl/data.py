@@ -356,7 +356,8 @@ class MetaICLData(object):
                 assert "options" not in dp
                 assert type(dp)==str
                 _test_data[i] = {"input": dp, "options": options}
-
+                print(_train_data[i])
+                input()
         train_data, test_data = [], []
         if self.use_demonstrations:
             for dp in _train_data:
