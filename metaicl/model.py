@@ -272,12 +272,13 @@ class MetaICLModel(object):
 
     def run_model(self, input_ids, attention_mask, token_type_ids, labels=None):
         outputs = self.model(input_ids=input_ids, attention_mask=attention_mask)
+        logits = outputs.logits[..., :-1, :].contiguous()
         print('run model:')
-        print('logits:', outputs.logits.shape)
+        print('outputs.logits:', outputs.logits.shape)
+        print('logits:', logits.shape)
         print('input_ids:', input_ids.shape)
         input()
-        logits = outputs.logits[..., :-1, :].contiguous()
-
+        
         if labels is None:
             labels = input_ids
         labels = labels[..., 1:].contiguous()
