@@ -356,8 +356,7 @@ class MetaICLData(object):
                 assert "options" not in dp
                 assert type(dp)==str
                 _test_data[i] = {"input": dp, "options": options}
-                print(_train_data[i])
-                input()
+
         train_data, test_data = [], []
         if self.use_demonstrations:
             for dp in _train_data:
@@ -407,6 +406,8 @@ class MetaICLData(object):
                 input_ids.append(encoded[0])
                 attention_mask.append(encoded[1])
                 token_type_ids.append(encoded[2])
+                print(len(input_ids[-1]), len(attention_mask), len(token_type_ids))
+                input()
 
         self.tensorized_inputs = dict(input_ids=torch.LongTensor(input_ids),
                                       attention_mask=torch.LongTensor(attention_mask),
