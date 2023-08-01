@@ -294,7 +294,7 @@ class MetaICLModel(object):
             else:
                 ood_labels.append(0)
             id_logits = [np.sum(logits[indices]) for i, indices in enumerate(dp["indices"]) if i != ood_idx]
-            id_softmax = torch.softmax(id_logits)
+            id_softmax = torch.softmax(torch.LongTensor(id_logits))
             print(id_logits)
             print(id_softmax)
             input()
