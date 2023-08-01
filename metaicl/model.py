@@ -273,7 +273,7 @@ class MetaICLModel(object):
     def run_model(self, input_ids, attention_mask, token_type_ids, labels=None):
         outputs = self.model(input_ids=input_ids, attention_mask=attention_mask)
         logits = outputs.logits[..., :-1, :].contiguous()
-        
+
         if labels is None:
             labels = input_ids
         labels = labels[..., 1:].contiguous()
@@ -298,9 +298,10 @@ class MetaICLModel(object):
 
         loss_fct = torch.nn.CrossEntropyLoss(reduction="none")
         losses = loss_fct(logits.view(-1, logits.size(-1)), labels.view(-1)) # [batch_size, length]
-        print('losses:', losses.shape)
-        input()
         losses = losses.view(logits.size(0), logits.size(1)) * label_mask
+        logits = logits.gather(2, labels.unsqueeze(dim=2))
+        print(logits.shape)
+        input()
         return torch.sum(losses, axis=1) / torch.sum(label_mask, axis=1)
 
 def setup_fp16(model, optimizer):
