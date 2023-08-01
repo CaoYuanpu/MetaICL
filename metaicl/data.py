@@ -91,9 +91,6 @@ class MetaICLData(object):
         return dataloader
 
     def evaluate(self, predictions, groundtruths, is_classification):
-        print('evaluate:')
-        print(len(predictions), len(groundtruths))
-        input()
         assert len(predictions)==len(self.metadata)
         accs = []
         precisions = defaultdict(list)
@@ -101,8 +98,6 @@ class MetaICLData(object):
         for prediction, groundtruth in zip(predictions, groundtruths):
             prediction = prediction.strip()
             groundtruth = [gt.strip() for gt in groundtruth] if type(groundtruth)==list else groundtruth.strip()
-            print('pred: ', prediction, 'GT: ', groundtruth)
-            input()
             is_correct = prediction in groundtruth if type(groundtruth)==list else prediction==groundtruth
             accs.append(is_correct)
             if is_classification:
