@@ -188,6 +188,7 @@ def run(logger, task, metaicl_data, metaicl_model, train_data, dev_data, seed,
         prediction_path = prediction_path.replace(".txt", "-calibrated.txt")
 
     if os.path.exists(prediction_path):
+        print('exist prediction path')
         return 0
 
     if os.path.exists(cache_path):
