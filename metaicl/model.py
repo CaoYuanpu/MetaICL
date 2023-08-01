@@ -257,8 +257,6 @@ class MetaICLModel(object):
                 loss, logit = self.run_model(input_ids, attention_mask, token_type_ids, labels=labels)
             losses += loss.cpu().detach().numpy().tolist()
             logits += logit.cpu().detach().numpy().tolist()
-            print('len losses: ', len(losses), 'len logits: ', len(logits))
-            input()
         return losses, logits
 
     def do_predict(self, data, batch_size=1, losses=None, verbose=False):
@@ -304,8 +302,6 @@ class MetaICLModel(object):
         losses = loss_fct(logits.view(-1, logits.size(-1)), labels.view(-1)) # [batch_size, length]
         losses = losses.view(logits.size(0), logits.size(1)) * label_mask
         logits = logits.gather(2, labels.unsqueeze(dim=2)).squeeze(-1) * label_mask
-        print(logits.shape)
-        input()
         return torch.sum(losses, axis=1) / torch.sum(label_mask, axis=1), torch.sum(logits, axis=1) / torch.sum(label_mask, axis=1)
 
 def setup_fp16(model, optimizer):
