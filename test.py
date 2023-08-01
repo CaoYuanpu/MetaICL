@@ -225,10 +225,10 @@ def run(logger, task, metaicl_data, metaicl_model, train_data, dev_data, seed,
     perf = metaicl_data.evaluate(predictions, groundtruths, is_classification)
     logger.info("Accuracy=%s" % perf)
 
-    with open(prediction_path, "w") as f:
-        for prediction in predictions:
-            f.write(prediction)
-            f.write("\n")
+    # with open(prediction_path, "w") as f:
+    #     for prediction in predictions:
+    #         f.write(prediction)
+    #         f.write("\n")
 
     return perf
 
