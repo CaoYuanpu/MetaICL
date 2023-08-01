@@ -288,12 +288,14 @@ class MetaICLModel(object):
 
         predictions = []
         for idx, dp in enumerate(data.metadata):
-            print('ood index:', dp["options"].index(ood))
-            input()
+            ood_idx = dp["options"].index(ood)
             if groundtruths[idx] == ood:
                 ood_labels.append(1)
             else:
                 ood_labels.append(0)
+            id_logits = [np.sum(logits[indices]) for i, indices in enumerate(dp["indices"]) if i != ood_idx]
+            print(id_logits)
+            input()
             curr_label_losses = [np.sum(losses[indices]) for indices in dp["indices"]]
             prediction_idx = sorted(enumerate(curr_label_losses), key=lambda x: x[1])[0][0]
             prediction = dp["options"][prediction_idx]
