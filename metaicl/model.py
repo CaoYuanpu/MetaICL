@@ -295,6 +295,7 @@ class MetaICLModel(object):
                 ood_labels.append(0)
             id_logits = [np.sum(logits[indices]) for i, indices in enumerate(dp["indices"]) if i != ood_idx]
             print(id_logits)
+            print(-1*id_logits)
             input()
             curr_label_losses = [np.sum(losses[indices]) for indices in dp["indices"]]
             prediction_idx = sorted(enumerate(curr_label_losses), key=lambda x: x[1])[0][0]
