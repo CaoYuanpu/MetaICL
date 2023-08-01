@@ -296,7 +296,7 @@ class MetaICLModel(object):
             id_logits = [np.sum(logits[indices]) for i, indices in enumerate(dp["indices"]) if i != ood_idx]
             id_softmax = torch.softmax(torch.Tensor(id_logits), dim=0)
             id_energy = torch.logsumexp(torch.Tensor(id_logits), dim=0)
-            msp_scores.append(-1*np.max(id_softmax))
+            msp_scores.append(-1*torch.max(id_softmax))
             mlogit_scores.append(-1*np.max(id_logits))
             energe_scores.append(-1*id_energy)
             print(id_logits, mlogit_scores[-1])
