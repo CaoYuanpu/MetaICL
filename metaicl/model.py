@@ -15,6 +15,8 @@ from transformers import AutoModelForCausalLM
 
 from utils.utils import get_checkpoint_id, download_file
 
+from sklearn.metrics import roc_auc_score, roc_curve, auc
+
 class MetaICLModel(object):
 
     def __init__(self, logger=None, out_dir=None, fp16=True, local_rank=-1):
@@ -296,17 +298,25 @@ class MetaICLModel(object):
             id_logits = [np.sum(logits[indices]) for i, indices in enumerate(dp["indices"]) if i != ood_idx]
             id_softmax = torch.softmax(torch.Tensor(id_logits), dim=0)
             id_energy = torch.logsumexp(torch.Tensor(id_logits), dim=0)
+
             msp_scores.append(-1*torch.max(id_softmax))
             mlogit_scores.append(-1*np.max(id_logits))
             energe_scores.append(-1*id_energy)
-            print(id_logits, mlogit_scores[-1])
-            print(id_softmax, msp_scores[-1])
-            print(id_energy, energe_scores[-1])
-            input()
+            # print(id_logits, mlogit_scores[-1])
+            # print(id_softmax, msp_scores[-1])
+            # print(id_energy, energe_scores[-1])
+            # input()
             curr_label_losses = [np.sum(losses[indices]) for indices in dp["indices"]]
             prediction_idx = sorted(enumerate(curr_label_losses), key=lambda x: x[1])[0][0]
             prediction = dp["options"][prediction_idx]
             predictions.append(prediction.strip())
+        msp_roc_auc = roc_auc_score(ood_labels, msp_scores)
+        mlogit_roc_auc = roc_auc_score(ood_labels, mlogit_scores)
+        energy_roc_auc = roc_auc_score(ood_labels, energe_scores)
+        print('msp: ', msp_roc_auc)
+        print('mlogit: ', mlogit_roc_auc)
+        print('energy: ', energy_roc_auc)
+        input()
         return predictions
 
     def run_model(self, input_ids, attention_mask, token_type_ids, labels=None):
