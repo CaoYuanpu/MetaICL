@@ -86,7 +86,6 @@ def main(logger, args):
                                datasets=None if args.dataset is None else args.dataset.split(","))
         dev_data = load_data(args.task, args.split, args.k, seed=seed, config_split=config_split,
                              datasets=None if args.dataset is None else args.dataset.split(","), is_null=args.is_null)
-        dev_data = dev_data[:100]
         if args.use_random_english_words:
             from english_words import english_words_set
             english_words_set = sorted(english_words_set)
