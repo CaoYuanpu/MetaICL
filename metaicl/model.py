@@ -272,7 +272,7 @@ class MetaICLModel(object):
             predictions.append(prediction.strip())
         return predictions
 
-    def do_predict_ood(self, data, batch_size=1, logits=None, losses=None, ood=None, verbose=False):
+    def do_predict_ood(self, data, batch_size=1, logits=None, losses=None, ood=None, groundtruths=None, verbose=False):
         if losses is None:
             losses, logits = self.do_inference(data, batch_size, verbose=verbose)
         losses = np.array(losses)
@@ -285,7 +285,7 @@ class MetaICLModel(object):
         for idx, dp in enumerate(data.metadata):
             print('indices: ', dp["indices"])
             print("option: ", dp["options"])
-            print("answer: ", dp["answer"])
+            print("answer: ", dp["answer"], groundtruths[idx])
             input()
             curr_label_losses = [np.sum(losses[indices]) for indices in dp["indices"]]
             prediction_idx = sorted(enumerate(curr_label_losses), key=lambda x: x[1])[0][0]

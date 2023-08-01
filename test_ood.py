@@ -228,9 +228,10 @@ def run(logger, task, metaicl_data, metaicl_model, train_data, dev_data, seed,
         assert losses.shape == bias_losses.shape
         losses -= bias_losses
 
-    predictions = metaicl_model.do_predict_ood(metaicl_data, logits=logits, losses=losses, ood=args.ood)
-    
-    # groundtruths = [dp["output"] for dp in dev_data]
+    groundtruths = [dp["output"] for dp in dev_data]
+
+    predictions = metaicl_model.do_predict_ood(metaicl_data, logits=logits, losses=losses, ood=args.ood, groundtruths=groundtruths)
+
     # perf = metaicl_data.evaluate(predictions, groundtruths, is_classification)
     # logger.info("Accuracy=%s" % perf)
 
