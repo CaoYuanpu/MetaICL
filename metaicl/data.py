@@ -95,6 +95,7 @@ class MetaICLData(object):
         accs = []
         precisions = defaultdict(list)
         recalls = defaultdict(list)
+        num_correct = 0
         for prediction, groundtruth in zip(predictions, groundtruths):
             prediction = prediction.strip()
             groundtruth = [gt.strip() for gt in groundtruth] if type(groundtruth)==list else groundtruth.strip()
@@ -103,6 +104,9 @@ class MetaICLData(object):
             if is_classification:
                 recalls[groundtruth].append(is_correct)
                 precisions[prediction].append(is_correct)
+                
+                if is_correct:
+                    num_correct += 1
 
         if not is_classification:
             return np.mean(accs)
@@ -115,7 +119,7 @@ class MetaICLData(object):
                 f1s.append(0)
             else:
                 f1s.append(2*precision*recall / (precision+recall))
-
+        print('acc: ', num_correct / len(groundtruths))
         return np.mean(f1s)
 
     def _prepro_each_datapoint(self, dp, is_first=True, is_training=False, for_demonstrations=False,
