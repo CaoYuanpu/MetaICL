@@ -284,7 +284,7 @@ class MetaICLModel(object):
         predictions = []
         for idx, dp in enumerate(data.metadata):
             print('indices: ', dp["indices"])
-            print("option: ", dp["option"])
+            print("option: ", dp["options"])
             input()
             curr_label_losses = [np.sum(losses[indices]) for indices in dp["indices"]]
             prediction_idx = sorted(enumerate(curr_label_losses), key=lambda x: x[1])[0][0]
