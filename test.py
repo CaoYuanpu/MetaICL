@@ -199,9 +199,14 @@ def run(logger, task, metaicl_data, metaicl_model, train_data, dev_data, seed,
             metaicl_model.cuda()
             metaicl_model.eval()
 
-        losses = metaicl_model.do_inference(metaicl_data, args.test_batch_size)
+        losses, logits = metaicl_model.do_inference(metaicl_data, args.test_batch_size)
         with open(cache_path, "wb") as f:
             pkl.dump(losses, f)
+
+        logit_path = cache_path.replace(".pkl", "-logit.pkl")
+     
+        with open(logit_path, "wb") as f:
+            pkl.dump(logits, f)
 
     assert len(losses)==len(metaicl_data)
 

@@ -244,6 +244,7 @@ class MetaICLModel(object):
         if verbose:
             dataloader = tqdm(dataloader)
         losses = []
+        logits = []
         for batch in dataloader:
             input_ids=batch[0].cuda()
             attention_mask=batch[1].cuda()
@@ -253,13 +254,16 @@ class MetaICLModel(object):
             else:
                 labels=batch[3].cuda()
             with torch.no_grad():
-                loss = self.run_model(input_ids, attention_mask, token_type_ids, labels=labels)
+                loss, logit = self.run_model(input_ids, attention_mask, token_type_ids, labels=labels)
             losses += loss.cpu().detach().numpy().tolist()
-        return losses
+            logits += logit.cpu().detach().numpy().tolist()
+            print('len losses: ', len(losses), 'len logits: ', len(logits))
+            input()
+        return losses, logits
 
     def do_predict(self, data, batch_size=1, losses=None, verbose=False):
         if losses is None:
-            losses = self.do_inference(data, batch_size, verbose=verbose)
+            losses, _ = self.do_inference(data, batch_size, verbose=verbose)
         losses = np.array(losses)
         assert len(losses)==len(data)
         predictions = []
@@ -299,10 +303,10 @@ class MetaICLModel(object):
         loss_fct = torch.nn.CrossEntropyLoss(reduction="none")
         losses = loss_fct(logits.view(-1, logits.size(-1)), labels.view(-1)) # [batch_size, length]
         losses = losses.view(logits.size(0), logits.size(1)) * label_mask
-        logits = logits.gather(2, labels.unsqueeze(dim=2)).squeeze(-1)
+        logits = logits.gather(2, labels.unsqueeze(dim=2)).squeeze(-1) * label_mask
         print(logits.shape)
         input()
-        return torch.sum(losses, axis=1) / torch.sum(label_mask, axis=1)
+        return torch.sum(losses, axis=1) / torch.sum(label_mask, axis=1), torch.sum(logits, axis=1) / torch.sum(label_mask, axis=1)
 
 def setup_fp16(model, optimizer):
     try:
