@@ -91,6 +91,9 @@ class MetaICLData(object):
         return dataloader
 
     def evaluate(self, predictions, groundtruths, is_classification):
+        print('evaluate:')
+        print(len(predictions), len(groundtruths))
+        input()
         assert len(predictions)==len(self.metadata)
         accs = []
         precisions = defaultdict(list)
