@@ -98,6 +98,8 @@ class MetaICLData(object):
         for prediction, groundtruth in zip(predictions, groundtruths):
             prediction = prediction.strip()
             groundtruth = [gt.strip() for gt in groundtruth] if type(groundtruth)==list else groundtruth.strip()
+            print('pred: ', prediction, 'GT: ', groundtruth)
+            input()
             is_correct = prediction in groundtruth if type(groundtruth)==list else prediction==groundtruth
             accs.append(is_correct)
             if is_classification:

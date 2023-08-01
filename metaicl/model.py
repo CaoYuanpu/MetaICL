@@ -279,14 +279,22 @@ class MetaICLModel(object):
         labels = labels[..., 1:].contiguous()
         label_mask = token_type_ids[..., 1:].contiguous()
 
-        print('run model:')
-        print('outputs.logits:', outputs.logits.shape)
-        print('logits:', logits.shape)
-        print('logits.size(-1):', logits.size(-1))
-        print('input_ids:', input_ids.shape)
-        print('labels:', labels.shape)
-        print(logits.view(-1, logits.size(-1)).shape, labels.view(-1).shape)
-        
+        # print('run model:')
+        # print('outputs.logits:', outputs.logits.shape)
+        # print('logits:', logits.shape)
+        # print('logits.size(-1):', logits.size(-1))
+        # print('input_ids:', input_ids.shape)
+        # print('labels:', labels.shape)
+        # print(logits.view(-1, logits.size(-1)).shape, labels.view(-1).shape)
+
+        # run model:
+        # outputs.logits: torch.Size([16, 1024, 50257])
+        # logits: torch.Size([16, 1023, 50257])
+        # logits.size(-1): 50257
+        # input_ids: torch.Size([16, 1024])
+        # labels: torch.Size([16, 1023])
+        # torch.Size([16368, 50257]) torch.Size([16368])
+        # losses: torch.Size([16368])
 
         loss_fct = torch.nn.CrossEntropyLoss(reduction="none")
         losses = loss_fct(logits.view(-1, logits.size(-1)), labels.view(-1)) # [batch_size, length]
