@@ -288,6 +288,8 @@ class MetaICLModel(object):
 
         predictions = []
         for idx, dp in enumerate(data.metadata):
+            print('ood index:', dp["options"].index(ood))
+            input()
             if groundtruths[idx] == ood:
                 ood_labels.append(1)
             else:
@@ -296,8 +298,6 @@ class MetaICLModel(object):
             prediction_idx = sorted(enumerate(curr_label_losses), key=lambda x: x[1])[0][0]
             prediction = dp["options"][prediction_idx]
             predictions.append(prediction.strip())
-        print('ood_labels: ', np.sum(ood_labels))
-        input()
         return predictions
 
     def run_model(self, input_ids, attention_mask, token_type_ids, labels=None):
